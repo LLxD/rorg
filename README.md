@@ -7,7 +7,7 @@ A flexible CLI tool for organizing React projects with different architectural p
 You can run this tool directly using npx:
 
 ```bash
-npx rorg generate init
+npx rorg
 ```
 
 On first run, you'll be prompted to:
@@ -22,26 +22,26 @@ These preferences will be saved in `.rorg-config.json`. After initialization, re
 
 ### Atomic Design
 ```bash
-npx rorg generate atom
-npx rorg generate molecule
-npx rorg generate organism
-npx rorg generate template
-npx rorg generate page
+npx rorg atom
+npx rorg molecule
+npx rorg organism
+npx rorg template
+npx rorg page
 ```
 
 ### Pages & Components
 ```bash
-npx rorg generate component
-npx rorg generate page
+npx rorg component
+npx rorg page
 ```
 
 ### Feature First
 ```bash
-npx rorg generate feature
-npx rorg generate shared
+npx rorg feature
+npx rorg shared
 ```
 
-## Generated Structure
+##d Structure
 
 Depending on your chosen pattern, the tool will create one of these structures (under your specified base path):
 
