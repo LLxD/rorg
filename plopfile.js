@@ -1,14 +1,17 @@
 const fs = require("fs");
+const path = require("path");
 const { atomicDesignGenerator } = require("./generators/atomic-design");
 const { pagesComponentsGenerator } = require("./generators/pages-components");
 const { featureFirstGenerator } = require("./generators/feature-first");
 
-const CONFIG_FILE = ".rorg-config.json";
-
 module.exports = function (plop) {
+  const packageDir = __dirname;
+  const projectDir = process.cwd();
+
   plop.setHelper("eq", (a, b) => a === b);
 
-  // Check if config exists
+  const CONFIG_FILE = path.join(projectDir, ".rorg-config.json");
+
   let config = null;
   if (fs.existsSync(CONFIG_FILE)) {
     try {
@@ -78,12 +81,14 @@ module.exports = function (plop) {
           )
         );
 
-        // Create base directory
+        const baseDir = path.join(projectDir, answers.basePath);
+        const templateDir = path.join(packageDir, "plop-templates");
+
         const actions = [
           {
             type: "add",
-            path: `${answers.basePath}/.gitkeep`,
-            templateFile: "plop-templates/gitkeep.hbs",
+            path: `${baseDir}/.gitkeep`,
+            templateFile: path.join(templateDir, "gitkeep.hbs"),
           },
         ];
 
@@ -93,28 +98,28 @@ module.exports = function (plop) {
             actions.push(
               {
                 type: "add",
-                path: `${answers.basePath}/components/atoms/.gitkeep`,
-                templateFile: "plop-templates/gitkeep.hbs",
+                path: `${baseDir}/components/atoms/.gitkeep`,
+                templateFile: path.join(templateDir, "gitkeep.hbs"),
               },
               {
                 type: "add",
-                path: `${answers.basePath}/components/molecules/.gitkeep`,
-                templateFile: "plop-templates/gitkeep.hbs",
+                path: `${baseDir}/components/molecules/.gitkeep`,
+                templateFile: path.join(templateDir, "gitkeep.hbs"),
               },
               {
                 type: "add",
-                path: `${answers.basePath}/components/organisms/.gitkeep`,
-                templateFile: "plop-templates/gitkeep.hbs",
+                path: `${baseDir}/components/organisms/.gitkeep`,
+                templateFile: path.join(templateDir, "gitkeep.hbs"),
               },
               {
                 type: "add",
-                path: `${answers.basePath}/components/templates/.gitkeep`,
-                templateFile: "plop-templates/gitkeep.hbs",
+                path: `${baseDir}/components/templates/.gitkeep`,
+                templateFile: path.join(templateDir, "gitkeep.hbs"),
               },
               {
                 type: "add",
-                path: `${answers.basePath}/components/pages/.gitkeep`,
-                templateFile: "plop-templates/gitkeep.hbs",
+                path: `${baseDir}/components/pages/.gitkeep`,
+                templateFile: path.join(templateDir, "gitkeep.hbs"),
               }
             );
             break;
@@ -122,13 +127,13 @@ module.exports = function (plop) {
             actions.push(
               {
                 type: "add",
-                path: `${answers.basePath}/pages/.gitkeep`,
-                templateFile: "plop-templates/gitkeep.hbs",
+                path: `${baseDir}/pages/.gitkeep`,
+                templateFile: path.join(templateDir, "gitkeep.hbs"),
               },
               {
                 type: "add",
-                path: `${answers.basePath}/components/.gitkeep`,
-                templateFile: "plop-templates/gitkeep.hbs",
+                path: `${baseDir}/components/.gitkeep`,
+                templateFile: path.join(templateDir, "gitkeep.hbs"),
               }
             );
             break;
@@ -136,13 +141,13 @@ module.exports = function (plop) {
             actions.push(
               {
                 type: "add",
-                path: `${answers.basePath}/features/.gitkeep`,
-                templateFile: "plop-templates/gitkeep.hbs",
+                path: `${baseDir}/features/.gitkeep`,
+                templateFile: path.join(templateDir, "gitkeep.hbs"),
               },
               {
                 type: "add",
-                path: `${answers.basePath}/shared/.gitkeep`,
-                templateFile: "plop-templates/gitkeep.hbs",
+                path: `${baseDir}/shared/.gitkeep`,
+                templateFile: path.join(templateDir, "gitkeep.hbs"),
               }
             );
             break;
