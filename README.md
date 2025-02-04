@@ -41,7 +41,7 @@ npx rorg feature
 npx rorg shared
 ```
 
-##d Structure
+## Structure
 
 Depending on your chosen pattern, the tool will create one of these structures (under your specified base path):
 
