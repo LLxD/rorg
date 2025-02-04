@@ -1,0 +1,16 @@
+import React from 'react';
+{{#if separateCss}}
+import styles from './{{pascalCase name}}.module.css';
+{{/if}}
+
+interface {{pascalCase name}}Props {
+  children?: React.ReactNode;
+}
+
+export const {{pascalCase name}}: React.FC<{{pascalCase name}}Props> = ({ children }) => {
+  return (
+    <div{{#if separateCss}} className={styles.container}{{/if}}>
+      {children}
+    </div>
+  );
+};

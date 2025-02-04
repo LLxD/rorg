@@ -1,0 +1,10 @@
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import { {{pascalCase name}} } from './{{pascalCase name}}';
+
+describe('{{pascalCase name}}', () => {
+  it('renders without crashing', () => {
+    render(<{{pascalCase name}}>Test Content</{{pascalCase name}}>);
+    expect(screen.getByText('Test Content')).toBeInTheDocument();
+  });
+});

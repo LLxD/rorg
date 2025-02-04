@@ -1,0 +1,24 @@
+{
+  "name": "rorg",
+  "version": "1.0.0",
+  "description": "CLI tool for organizing React projects with different architectural patterns",
+  "main": "index.js",
+  "bin": {
+    "rorg": "./bin/cli.js"
+  },
+  "scripts": {
+    "generate": "plop"
+  },
+  "keywords": [
+    "react",
+    "cli",
+    "generator",
+    "components",
+    "architecture"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "plop": "^3.1.2"
+  }
+}
