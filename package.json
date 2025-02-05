@@ -16,10 +16,13 @@
     "components",
     "architecture"
   ],
-  "author": "",
+  "author": "LLxD",
   "license": "MIT",
   "dependencies": {
     "plop": "^3.1.2"
   },
-  "repository": "github:llxd/rorg"
+  "repository": "github:llxd/rorg",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
 }
