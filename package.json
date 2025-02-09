@@ -1,6 +1,6 @@
 {
   "name": "rorg",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "CLI tool for organizing React projects with different architectural patterns",
   "main": "index.js",
   "bin": {
