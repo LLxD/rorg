@@ -165,13 +165,13 @@ module.exports = function (plop) {
   if (config) {
     switch (config.pattern) {
       case "atomic":
-        atomicDesignGenerator(plop, config);
+        atomicDesignGenerator(plop, { ...config, projectDir });
         break;
       case "pages-components":
-        pagesComponentsGenerator(plop, config);
+        pagesComponentsGenerator(plop, { ...config, projectDir });
         break;
       case "feature-first":
-        featureFirstGenerator(plop, config);
+        featureFirstGenerator(plop, { ...config, projectDir });
         break;
     }
   }

@@ -1,6 +1,6 @@
 {
-  "name": "@llxd/rorg",
-  "version": "1.0.4",
+  "name": "rorg",
+  "version": "1.0.5",
   "description": "CLI tool for organizing React projects with different architectural patterns",
   "main": "index.js",
   "bin": {
@@ -21,8 +21,5 @@
   "dependencies": {
     "plop": "^3.1.2"
   },
-  "repository": "github:llxd/rorg",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  }
+  "repository": "github:llxd/rorg"
 }
