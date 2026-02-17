@@ -39,6 +39,7 @@ function createComponentGenerator(type, config) {
       type: "add",
       path: `${basePath}/components/${type}/{{pascalCase name}}/{{pascalCase name}}.tsx`,
       templateFile: "plop-templates/component.tsx.hbs",
+      data: { separateCss: config.separateCss }
     },
     {
       type: "add",

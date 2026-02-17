@@ -39,6 +39,7 @@ exports.pagesComponentsGenerator = function (plop, config = {}) {
       type: "add",
       path: `${basePath}/components/{{pascalCase name}}/{{pascalCase name}}.tsx`,
       templateFile: "plop-templates/component.tsx.hbs",
+      data: { separateCss: config.separateCss }
     },
     {
       type: "add",
@@ -85,6 +86,7 @@ exports.pagesComponentsGenerator = function (plop, config = {}) {
       type: "add",
       path: `${basePath}/pages/{{pascalCase name}}/{{pascalCase name}}.tsx`,
       templateFile: "plop-templates/component.tsx.hbs",
+      data: { separateCss: config.separateCss }
     },
     {
       type: "add",

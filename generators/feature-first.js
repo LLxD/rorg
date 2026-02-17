@@ -86,6 +86,7 @@ exports.featureFirstGenerator = function (plop, config = {}) {
       type: "add",
       path: `${basePath}/shared/{{pascalCase name}}/{{pascalCase name}}.tsx`,
       templateFile: "plop-templates/component.tsx.hbs",
+      data: { separateCss: config.separateCss }
     },
     {
       type: "add",
