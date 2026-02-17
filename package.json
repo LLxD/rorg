@@ -7,7 +7,10 @@
     "rorg": "./bin/cli.js"
   },
   "scripts": {
-    "generate": "plop"
+    "generate": "plop",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "keywords": [
     "react",
@@ -21,5 +24,9 @@
   "dependencies": {
     "plop": "^3.1.2"
   },
-  "repository": "github:llxd/rorg"
+  "repository": "github:llxd/rorg",
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "jest": "^30.2.0"
+  }
 }
