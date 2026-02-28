@@ -1,14 +1,22 @@
 # rorg
 
+[![CI](https://github.com/LLxD/rorg/actions/workflows/ci.yml/badge.svg)](https://github.com/LLxD/rorg/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/rorg)](https://www.npmjs.com/package/rorg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 A flexible CLI tool for organizing React projects with different architectural patterns.
 
 ## Installation
 
-You can run this tool directly using npx:
-
 ```bash
+# Use without installing (recommended)
 npx rorg
+
+# Or install globally
+npm install -g rorg
 ```
+
+> The package is always published as **`rorg`** on npm — never as a scoped package.
 
 On first run, you'll be prompted to:
 1. Choose your preferred architectural pattern

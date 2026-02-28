@@ -6,11 +6,24 @@
   "bin": {
     "rorg": "./bin/cli.js"
   },
+  "files": [
+    "bin/",
+    "generators/",
+    "plop-templates/",
+    "utils/",
+    "plopfile.js",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "generate": "plop",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "prepublishOnly": "npm test"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   },
   "keywords": [
     "react",
@@ -21,10 +34,21 @@
   ],
   "author": "LLxD",
   "license": "MIT",
+  "homepage": "https://github.com/LLxD/rorg#readme",
+  "bugs": {
+    "url": "https://github.com/LLxD/rorg/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LLxD/rorg.git"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "dependencies": {
     "plop": "^3.1.2"
   },
-  "repository": "github:llxd/rorg",
   "devDependencies": {
     "@types/jest": "^30.0.0",
     "jest": "^30.2.0"
