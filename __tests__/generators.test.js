@@ -234,14 +234,15 @@ describe('Generator Registration', () => {
       const featureGenerator = featureGeneratorCall[1];
 
       expect(featureGenerator.actions).toHaveLength(4);
+      // Use a cross-platform path fragment check (supports both / and \)
       expect(featureGenerator.actions.some(
-        action => action.path && action.path.includes('/components/')
+        action => action.path && /[/\\]components[/\\]/.test(action.path)
       )).toBe(true);
       expect(featureGenerator.actions.some(
-        action => action.path && action.path.includes('/hooks/')
+        action => action.path && /[/\\]hooks[/\\]/.test(action.path)
       )).toBe(true);
       expect(featureGenerator.actions.some(
-        action => action.path && action.path.includes('/utils/')
+        action => action.path && /[/\\]utils[/\\]/.test(action.path)
       )).toBe(true);
     });
 

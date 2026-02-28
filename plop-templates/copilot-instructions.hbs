@@ -1,0 +1,70 @@
+# GitHub Copilot Instructions for {{projectName}}
+
+## Project Architecture
+This project uses the **{{pattern}}** architectural pattern with components under `{{basePath}}/`.
+
+{{#if (eq pattern "atomic")}}
+### Atomic Design
+When generating component code, follow this directory structure:
+- `{{basePath}}/components/atoms/ComponentName/` — Atoms
+- `{{basePath}}/components/molecules/ComponentName/` — Molecules
+- `{{basePath}}/components/organisms/ComponentName/` — Organisms
+- `{{basePath}}/components/templates/ComponentName/` — Templates
+- `{{basePath}}/components/pages/ComponentName/` — Pages
+{{/if}}
+{{#if (eq pattern "pages-components")}}
+### Pages & Components
+- `{{basePath}}/components/ComponentName/` — Reusable components
+- `{{basePath}}/pages/ComponentName/` — Page-level components
+{{/if}}
+{{#if (eq pattern "feature-first")}}
+### Feature-First
+- `{{basePath}}/features/featureName/` — Feature modules with `components/`, `hooks/`, `utils/`, `index.ts`
+- `{{basePath}}/shared/ComponentName/` — Shared components
+{{/if}}
+
+## Component Template
+When creating a new component, always follow this exact structure:
+
+```tsx
+import React from 'react';
+{{#if separateCss}}import styles from './ComponentName.module.css';{{/if}}
+
+interface ComponentNameProps {
+  children?: React.ReactNode;
+}
+
+export const ComponentName: React.FC<ComponentNameProps> = ({ children }) => {
+  return (
+    <div{{#if separateCss}} className={styles.container}{{/if}}>
+      {children}
+    </div>
+  );
+};
+```
+
+Each component directory must also include `index.ts`:
+```ts
+export { ComponentName } from './ComponentName';
+```
+{{#if includeTests}}
+And a test file `ComponentName.test.tsx`:
+```tsx
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import { ComponentName } from './ComponentName';
+
+describe('ComponentName', () => {
+  it('renders without crashing', () => {
+    render(<ComponentName>Test Content</ComponentName>);
+    expect(screen.getByText('Test Content')).toBeInTheDocument();
+  });
+});
+```
+{{/if}}
+
+## Conventions
+- **Exports**: Always named exports (no `export default`)
+- **Typing**: Use TypeScript strictly; no `any`
+- **Props**: Each component has a dedicated `{Name}Props` interface
+{{#if separateCss}}- **Styles**: CSS Modules only (`*.module.css`), class name `container` for the root element{{/if}}

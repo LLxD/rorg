@@ -3,6 +3,7 @@ const path = require("path");
 const { atomicDesignGenerator } = require("./generators/atomic-design");
 const { pagesComponentsGenerator } = require("./generators/pages-components");
 const { featureFirstGenerator } = require("./generators/feature-first");
+const { aiDirectionsGenerator } = require("./generators/ai-directions");
 const { 
   validateBasePath, 
   createPromptValidator 
@@ -204,5 +205,7 @@ module.exports = function (plop) {
         featureFirstGenerator(plop, { ...config, projectDir });
         break;
     }
+    // AI directions generator is always available once project is initialized
+    aiDirectionsGenerator(plop, { ...config, projectDir });
   }
 };

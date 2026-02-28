@@ -82,8 +82,9 @@ function validateBasePath(basePath) {
     };
   }
 
-  // Normalize the path to prevent path traversal
-  const normalized = path.normalize(trimmed);
+  // Normalize the path to prevent path traversal; use forward slashes for
+  // cross-platform consistency (important for web/frontend tooling on Windows)
+  const normalized = path.normalize(trimmed).replace(/\\/g, '/');
 
   // Check for parent directory traversal beyond project root
   if (normalized.startsWith('..')) {

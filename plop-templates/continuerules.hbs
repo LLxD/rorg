@@ -1,0 +1,53 @@
+# Continue.dev Rules for {{projectName}}
+
+## Context
+- **Pattern**: {{pattern}}
+- **Base path**: `{{basePath}}/`
+{{#if separateCss}}- **Styling**: CSS Modules{{/if}}
+{{#if includeTests}}- **Tests**: Jest + @testing-library/react{{/if}}
+
+## File Structure per Component
+```
+ComponentName/
+├── ComponentName.tsx
+├── index.ts
+{{#if separateCss}}├── ComponentName.module.css
+{{/if}}{{#if includeTests}}└── ComponentName.test.tsx
+{{/if}}```
+
+## Generate Files With
+{{#if (eq pattern "atomic")}}
+```
+npx rorg atom | molecule | organism | template | page
+```
+{{/if}}
+{{#if (eq pattern "pages-components")}}
+```
+npx rorg component | page
+```
+{{/if}}
+{{#if (eq pattern "feature-first")}}
+```
+npx rorg feature | shared
+```
+{{/if}}
+
+## Component Template (always use this shape)
+```tsx
+import React from 'react';
+{{#if separateCss}}import styles from './ComponentName.module.css';
+{{/if}}
+interface ComponentNameProps {
+  children?: React.ReactNode;
+}
+
+export const ComponentName: React.FC<ComponentNameProps> = ({ children }) => {
+  return <div{{#if separateCss}} className={styles.container}{{/if}}>{children}</div>;
+};
+```
+
+## Strict Rules
+- Named exports only
+- `React.FC<Props>` with typed interface
+- No `any`
+{{#if separateCss}}- All styles via CSS Modules{{/if}}

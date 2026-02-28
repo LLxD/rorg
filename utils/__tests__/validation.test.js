@@ -172,7 +172,18 @@ describe('validateBasePath', () => {
     it('should accept a nested path', () => {
       const result = validateBasePath('src/components');
       expect(result.valid).toBe(true);
+      // normalized always uses forward slashes for cross-platform consistency
       expect(result.normalized).toBe('src/components');
+    });
+
+    it('should normalize Windows-style backslash separators to forward slashes', () => {
+      // Windows-style relative paths with backslashes should be accepted and normalized
+      const result = validateBasePath('src\\components');
+      if (result.valid) {
+        // On any OS, normalized output should use forward slashes
+        expect(result.normalized).not.toContain('\\');
+        expect(result.normalized).toBe('src/components');
+      }
     });
 
     it('should trim whitespace', () => {
@@ -184,8 +195,9 @@ describe('validateBasePath', () => {
     it('should normalize redundant separators', () => {
       const result = validateBasePath('src//components');
       expect(result.valid).toBe(true);
-      // Path normalize should clean this up
+      // normalized output should not contain double slashes
       expect(result.normalized).not.toContain('//');
+      expect(result.normalized).not.toContain('\\');
     });
 
     it('should accept paths with hyphens', () => {
@@ -196,6 +208,15 @@ describe('validateBasePath', () => {
     it('should accept paths with underscores', () => {
       const result = validateBasePath('my_app/src');
       expect(result.valid).toBe(true);
+    });
+
+    it('should always return forward slashes in normalized output', () => {
+      const paths = ['src', 'src/app', 'my-project/src', 'app/components/ui'];
+      for (const p of paths) {
+        const result = validateBasePath(p);
+        expect(result.valid).toBe(true);
+        expect(result.normalized).not.toContain('\\');
+      }
     });
   });
 
@@ -236,8 +257,14 @@ describe('validateBasePath', () => {
       expect(result.error).toContain('relative path');
     });
 
-    it('should reject absolute paths (windows)', () => {
+    it('should reject absolute paths (windows drive letter)', () => {
       const result = validateBasePath('C:\\Users\\src');
+      expect(result.valid).toBe(false);
+      expect(result.error).toContain('relative path');
+    });
+
+    it('should reject absolute paths (windows forward slash)', () => {
+      const result = validateBasePath('C:/Users/src');
       expect(result.valid).toBe(false);
       expect(result.error).toContain('relative path');
     });

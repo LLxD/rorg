@@ -1,0 +1,84 @@
+# Project Agents & AI Assistant Guide
+
+## Overview
+This is a React + TypeScript project using the **{{pattern}}** architectural pattern.
+All components live under `{{basePath}}/`.
+
+## Directory Structure
+{{#if (eq pattern "atomic")}}
+```
+{{basePath}}/
+  components/
+    atoms/       — Primitive UI elements (buttons, inputs, icons)
+    molecules/   — Composite elements (form fields, cards)
+    organisms/   — Complex UI sections (headers, sidebars)
+    templates/   — Page layout skeletons
+    pages/       — Full page components
+```
+{{/if}}
+{{#if (eq pattern "pages-components")}}
+```
+{{basePath}}/
+  components/    — Reusable UI components
+  pages/         — Route-level page components
+```
+{{/if}}
+{{#if (eq pattern "feature-first")}}
+```
+{{basePath}}/
+  features/
+    <feature-name>/
+      components/   — Feature-specific components
+      hooks/        — Feature-specific hooks
+      utils/        — Feature-specific utilities
+      index.ts      — Public API (re-exports)
+  shared/           — Cross-feature shared components
+```
+{{/if}}
+
+## Scaffolding Commands
+Use the rorg CLI to scaffold new components correctly:
+{{#if (eq pattern "atomic")}}
+```bash
+npx rorg atom       # Create an atom
+npx rorg molecule   # Create a molecule
+npx rorg organism   # Create an organism
+npx rorg template   # Create a template
+npx rorg page       # Create a page
+```
+{{/if}}
+{{#if (eq pattern "pages-components")}}
+```bash
+npx rorg component  # Create a reusable component
+npx rorg page       # Create a page component
+```
+{{/if}}
+{{#if (eq pattern "feature-first")}}
+```bash
+npx rorg feature    # Create a new feature module
+npx rorg shared     # Create a shared component
+```
+{{/if}}
+
+## Component File Structure
+Each component directory contains:
+```
+ComponentName/
+  ComponentName.tsx    — Component implementation
+  index.ts             — Re-export: export { ComponentName } from './ComponentName'
+{{#if separateCss}}  ComponentName.module.css — CSS Module styles{{/if}}
+{{#if includeTests}}  ComponentName.test.tsx   — Jest + Testing Library tests{{/if}}
+```
+
+## TypeScript Standards
+- All components: `React.FC<Props>` with a named interface `{Name}Props`
+- Children: typed as `React.ReactNode`
+- No `any` types
+- Named exports only (no `export default`)
+
+## When Generating Code
+1. Always create all files in the component directory
+2. Match the exact naming convention (`PascalCase` for components)
+3. Include the `index.ts` re-export file
+{{#if separateCss}}4. Reference styles via `import styles from './ComponentName.module.css'`{{/if}}
+{{#if includeTests}}5. Add a corresponding `.test.tsx` file using `@testing-library/react`{{/if}}

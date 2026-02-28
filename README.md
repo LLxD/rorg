@@ -41,6 +41,23 @@ npx rorg feature
 npx rorg shared
 ```
 
+### AI Directions
+```bash
+npx rorg ai
+```
+
+Generate AI assistant configuration files so your AI tool understands your project's architecture, naming conventions, and component patterns. Supports:
+
+| AI Tool | Output File |
+|---------|-------------|
+| **Cursor** | `.cursorrules` |
+| **GitHub Copilot** | `.github/copilot-instructions.md` |
+| **Windsurf** | `.windsurfrules` |
+| **AGENTS.md** (OpenAI/general) | `AGENTS.md` |
+| **Continue.dev** | `.continuerules` |
+
+The generated files are automatically populated with your project's architectural pattern, base path, naming conventions, and TypeScript/React guidelines so every AI tool gives contextually correct suggestions out of the box.
+
 ## Structure
 
 Depending on your chosen pattern, the tool will create one of these structures (under your specified base path):

@@ -1,0 +1,53 @@
+# Windsurf Rules for {{projectName}}
+
+## Architecture: {{pattern}}
+Components are under `{{basePath}}/`.
+
+{{#if (eq pattern "atomic")}}
+**Atomic Design layers:**
+- `atoms/` → smallest: Button, Input, Icon
+- `molecules/` → composed: SearchBar, FormField
+- `organisms/` → complex: Navbar, ProductCard
+- `templates/` → layouts
+- `pages/` → routes
+{{/if}}
+{{#if (eq pattern "pages-components")}}
+**Structure:**
+- `{{basePath}}/components/` → reusable UI
+- `{{basePath}}/pages/` → route pages
+{{/if}}
+{{#if (eq pattern "feature-first")}}
+**Feature structure:**
+- `{{basePath}}/features/<name>/` with `components/`, `hooks/`, `utils/`, `index.ts`
+- `{{basePath}}/shared/` for cross-feature components
+{{/if}}
+
+## Naming Rules
+- Component directories and files: `PascalCase`
+- Each component in its own directory
+- `index.ts` re-export in every component directory
+
+## Standard Component Shape
+```tsx
+import React from 'react';
+{{#if separateCss}}import styles from './ComponentName.module.css';{{/if}}
+
+interface ComponentNameProps {
+  children?: React.ReactNode;
+}
+
+export const ComponentName: React.FC<ComponentNameProps> = ({ children }) => {
+  return <div{{#if separateCss}} className={styles.container}{{/if}}>{children}</div>;
+};
+```
+
+```ts
+// index.ts
+export { ComponentName } from './ComponentName';
+```
+
+## Key Constraints
+- No `export default` — use named exports
+- No `any` types
+- CSS Modules only{{#unless separateCss}} (disabled for this project){{/unless}}
+- Tests with `@testing-library/react`{{#unless includeTests}} (disabled for this project){{/unless}}
