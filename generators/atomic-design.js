@@ -1,13 +1,45 @@
+const path = require("path");
+const {
+  validateComponentName,
+  createPromptValidator
+} = require("../utils/validation");
+const { validateTemplateFiles } = require("../utils/fileSystem");
+
 function createComponentGenerator(type, config) {
   const basePath = config.projectDir
-    ? `${config.projectDir}/${config.basePath || "src"}`
+    ? path.join(config.projectDir, config.basePath || "src")
     : config.basePath || "src";
+
+  // Validate template files at generator creation time
+  const templateDir = "plop-templates";
+  const requiredTemplates = [
+    "component.tsx.hbs",
+    "index.ts.hbs"
+  ];
+  
+  if (config.separateCss) {
+    requiredTemplates.push("styles.css.hbs");
+  }
+  
+  if (config.includeTests) {
+    requiredTemplates.push("component.test.tsx.hbs");
+  }
+
+  const templateValidation = validateTemplateFiles(templateDir, requiredTemplates);
+  if (!templateValidation.valid) {
+    console.error(
+      `⚠️  Missing template files for ${type}:`,
+      templateValidation.missing.join(", ")
+    );
+    console.error("Please reinstall the package.");
+  }
 
   const actions = [
     {
       type: "add",
       path: `${basePath}/components/${type}/{{pascalCase name}}/{{pascalCase name}}.tsx`,
       templateFile: "plop-templates/component.tsx.hbs",
+      data: { separateCss: config.separateCss }
     },
     {
       type: "add",
@@ -39,12 +71,10 @@ function createComponentGenerator(type, config) {
         type: "input",
         name: "name",
         message: `What is the name of the ${type.slice(0, -1)}?`,
-        validate: (value) => {
-          if (/.+/.test(value)) {
-            return true;
-          }
-          return `${type.slice(0, -1)} name is required`;
-        },
+        validate: createPromptValidator(
+          validateComponentName,
+          `${type.slice(0, -1)} name is required`
+        ),
       },
     ],
     actions,

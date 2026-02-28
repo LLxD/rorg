@@ -1,0 +1,65 @@
+# Cursor Rules for {{projectName}}
+
+## Project Architecture
+This project uses the **{{pattern}}** architectural pattern.
+
+{{#if (eq pattern "atomic")}}
+### Atomic Design Structure
+Components are organized in `{{basePath}}/components/` following atomic design:
+- `atoms/` — Smallest reusable elements (buttons, inputs, labels)
+- `molecules/` — Groups of atoms that form a simple UI component
+- `organisms/` — Complex UI sections composed of molecules and atoms
+- `templates/` — Page-level layouts
+- `pages/` — Full route/page components
+
+When creating components, always use:
+```
+npx rorg atom       # for atoms
+npx rorg molecule   # for molecules
+npx rorg organism   # for organisms
+npx rorg template   # for templates
+npx rorg page       # for pages
+```
+{{/if}}
+{{#if (eq pattern "pages-components")}}
+### Pages & Components Structure
+- `{{basePath}}/components/` — Reusable UI components
+- `{{basePath}}/pages/` — Route-level page components
+
+When creating:
+```
+npx rorg component  # reusable components
+npx rorg page       # page components
+```
+{{/if}}
+{{#if (eq pattern "feature-first")}}
+### Feature-First Structure
+- `{{basePath}}/features/<feature>/` — Feature modules (components, hooks, utils, index.ts)
+- `{{basePath}}/shared/` — Shared UI components used across features
+
+When creating:
+```
+npx rorg feature    # new feature module
+npx rorg shared     # shared component
+```
+{{/if}}
+
+## File & Naming Conventions
+- Component files: `PascalCase.tsx` (e.g., `MyButton.tsx`)
+- Each component lives in its own directory: `ComponentName/`
+- Every component directory must have an `index.ts` re-export
+{{#if separateCss}}- Styles: `ComponentName.module.css` (CSS Modules){{/if}}
+{{#if includeTests}}- Tests: `ComponentName.test.tsx` using `@testing-library/react`{{/if}}
+
+## TypeScript & React Rules
+- Always use `React.FC<Props>` with a named props interface
+- Use `React.ReactNode` for children props
+- Export components as named exports, not default exports
+- Props interface naming: `{ComponentName}Props`
+
+## Code Style
+- No `any` types — use proper TypeScript types
+- Prefer functional components with hooks
+- Keep components small and focused (single responsibility)
+{{#if separateCss}}- Use CSS Modules for all styles, never inline styles{{/if}}
+- Use semantic HTML elements

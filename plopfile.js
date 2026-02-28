@@ -3,6 +3,16 @@ const path = require("path");
 const { atomicDesignGenerator } = require("./generators/atomic-design");
 const { pagesComponentsGenerator } = require("./generators/pages-components");
 const { featureFirstGenerator } = require("./generators/feature-first");
+const { aiDirectionsGenerator } = require("./generators/ai-directions");
+const { 
+  validateBasePath, 
+  createPromptValidator 
+} = require("./utils/validation");
+const { 
+  safeReadJSON, 
+  safeWriteJSON,
+  validateTemplateFiles 
+} = require("./utils/fileSystem");
 
 module.exports = function (plop) {
   const packageDir = __dirname;
@@ -14,10 +24,13 @@ module.exports = function (plop) {
 
   let config = null;
   if (fs.existsSync(CONFIG_FILE)) {
-    try {
-      config = JSON.parse(fs.readFileSync(CONFIG_FILE, "utf8"));
-    } catch (err) {
-      console.error("Error reading config file:", err);
+    const readResult = safeReadJSON(CONFIG_FILE);
+    if (readResult.success) {
+      config = readResult.data;
+    } else {
+      console.error("⚠️  Error reading config file:", readResult.error);
+      console.error("Please fix or delete .rorg-config.json and run the command again.");
+      process.exit(1);
     }
   }
 
@@ -44,12 +57,10 @@ module.exports = function (plop) {
           name: "basePath",
           message: "Where should components be created? (e.g., src, app)",
           default: "src",
-          validate: (value) => {
-            if (/.+/.test(value)) {
-              return true;
-            }
-            return "Base path is required";
-          },
+          validate: createPromptValidator(
+            validateBasePath,
+            "Base path is required and must be valid"
+          ),
         },
         {
           type: "confirm",
@@ -65,24 +76,44 @@ module.exports = function (plop) {
         },
       ],
       actions: (answers) => {
-        // Save config
-        fs.writeFileSync(
-          CONFIG_FILE,
-          JSON.stringify(
-            {
-              pattern: answers.pattern,
-              basePath: answers.basePath,
-              includeTests: answers.includeTests,
-              separateCss: answers.separateCss,
-              initialized: new Date().toISOString(),
-            },
-            null,
-            2
-          )
-        );
+        // Normalize base path
+        const basePathResult = validateBasePath(answers.basePath);
+        if (!basePathResult.valid) {
+          console.error("⚠️  Invalid base path:", basePathResult.error);
+          process.exit(1);
+        }
+        const normalizedBasePath = basePathResult.normalized;
 
-        const baseDir = path.join(projectDir, answers.basePath);
+        // Save config with error handling
+        const configData = {
+          pattern: answers.pattern,
+          basePath: normalizedBasePath,
+          includeTests: answers.includeTests,
+          separateCss: answers.separateCss,
+          initialized: new Date().toISOString(),
+        };
+
+        const writeResult = safeWriteJSON(CONFIG_FILE, configData);
+        if (!writeResult.success) {
+          console.error("⚠️  Failed to save configuration:", writeResult.error);
+          process.exit(1);
+        }
+
+        const baseDir = path.join(projectDir, normalizedBasePath);
         const templateDir = path.join(packageDir, "plop-templates");
+
+        // Validate template files exist
+        const templateValidation = validateTemplateFiles(templateDir, [
+          "gitkeep.hbs"
+        ]);
+        if (!templateValidation.valid) {
+          console.error(
+            "⚠️  Missing template files:",
+            templateValidation.missing.join(", ")
+          );
+          console.error("Please reinstall the package.");
+          process.exit(1);
+        }
 
         const actions = [
           {
@@ -174,5 +205,7 @@ module.exports = function (plop) {
         featureFirstGenerator(plop, { ...config, projectDir });
         break;
     }
+    // AI directions generator is always available once project is initialized
+    aiDirectionsGenerator(plop, { ...config, projectDir });
   }
 };
